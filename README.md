@@ -11,6 +11,7 @@ chmod u+x run.sh
 ./run.sh
 ```
 
+<img src="out.gif">
 
 ## To change zip codes
 

@@ -20,7 +20,6 @@ import plotly.graph_objs as go
 import plotly
 import os 
 
-print(os.getcwd())
 filename = "scrape.csv"
 historical_data = "hist_data.csv"
 
@@ -160,20 +159,14 @@ def tranform_command():
     My filters
     """
     houses = pd.read_csv(filename)
-    print(houses.columns)
-    
-    print(houses.shape)
     
     houses.drop_duplicates(inplace=True)
-    print(houses.shape)
     houses=houses.rename({"exp":"expense", "address":"street","squaremeterPrice":"sqmPrice"}, axis=1)
     houses=houses.query("expense<6000 and size > 80 and zipCode < 2001 and propertyType!=5 and price < 6000000")
     houses = houses[~houses.street.str.contains("Roskildevej")]
     houses = houses[~houses.street.str.contains("Rådmand")]
         
     houses['Date'] = pd.to_datetime(houses.createdDate)
-    print(houses.head())
-    print(houses.shape)
     houses.to_csv(filename, index=False)
     
 
