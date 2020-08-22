@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block content %}
+
+ <!-- offset-m1 -->
+<div class="row">
+  <div class="col m12">
+     <div class="card-panel grey lighten-5 z-depth-1">
+       <div class="row valign-wrapper">
+         <div class="col s9">
+           <div class="video-container">
+            <iframe  src="/map" frameborder="0" allowfullscreen></iframe>
+          </div>
+         <!-- notice the "circle" class width="853" height="480"-->
+         </div>
+         <div class="col s3">
+             <table class="highlight">
+              <thead>
+                <tr>
+                    <th>Address</th>
+                    <th>Price</th>
+                    <th>Ejerudgift</th>
+                    <th>Size</th>
+                    <th>Link</th>
+                </tr>
+              </thead>
+              <tbody>
+             {% for house in houses %}
+              <tr>
+                <!-- <td> {{house['guid']}} </td> -->
+                <td> {{house['address']}} </td>
+                <td> {{house['price']}} </td>
+                <td> {{house['expense']}} </td>
+                <td> {{house['size']}} </td>
+                <td> <a target="_blank" class="waves-effect waves-light btn-large" href="{{house['link']}}"> link </a> </td>
+              </tr>
+         		{% endfor %}
+            </tbody>
+            </table>
+         </div>
+       </div>
+     </div>
+   </div>
+
+  </div>
+
+
+  <script>
+
+  function Add(resultid){
+    // localStorage.setItem('deleteId',resultid);
+    console.log(resultid);
+
+  	$.ajax({
+  		url : '/add',
+  		data : {id: resultid},
+  		type : 'POST',
+  		success: function(res){
+  			var result = JSON.parse(res);
+  			if(result.status == 'OK'){
+  				window.location.reload();
+  			}
+  			else{
+  				alert(result.status);
+  			}
+  		},
+  		error: function(error){
+  			console.log(error);
+  		}
+  	});
+  }
+
+  </script>
+
+
+{% endblock %}

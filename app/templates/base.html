@@ -1,0 +1,106 @@
+<!--
+
+Base for all other templates
+only defines the choice of .js, css, and fonts and adds navbar
+
+ -->
+
+<html>
+    <head>
+      <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/materialize.css') }}">
+
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+
+      <script type="text/javascript" src="{{ url_for('static', filename='js/materialize.js') }}"></script>
+      <script type="text/javascript" src="{{ url_for('static', filename='js/materialize.min.js') }}"></script>
+      <script type="text/javascript" src="{{ url_for('static', filename='js/core.min.js') }}"></script>
+      <script type="text/javascript" src="{{ url_for('static', filename='js/moment.min.js') }}"></script>
+      <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+
+    </head>
+    <body>
+    <div class="navbar-fixed">
+      <nav color="warn" class=" light-blue">
+        <div class="nav-wrapper">
+      <!-- Any changes to navbar for extending template
+          can be made here
+      -->
+
+      {% if g.user %}
+      <a href ="/logout" class="btn-floating btn-large halfway-fab waves-effect waves-light teal">
+             <i class="material-icons">lock</i>
+      </a>
+      {% endif %}
+
+      <a href="#" class="brand-logo">
+        <!-- <img src="{{ url_for('static', filename='img/novo.png') }}" style="height:74px" title="Novo"> -->
+        Houses
+      </a>
+
+      {% set navigation_bar = [
+      ('/', 'index', 'Home'),
+      ('/map', 'map', 'MAP'),
+      ('/hist', 'hist', 'HIST'),
+      ] -%}
+
+      {% set active_page = active_page|default('index') -%}
+
+      <ul id="navigation" class="right hide-on-med-and-down">
+      {% for href, id, caption in navigation_bar %}
+          <li{% if id == active_page %} class="active"{% endif
+          %}><a href="{{ href|e }}">{{ caption|e }}</a>
+          </li>
+      {% endfor %}
+      </ul>
+
+
+      {% block navbar %}{% endblock %}
+
+    </div>
+  </nav>
+</div>
+      <!--
+          All content for the page goes here,
+      -->
+      <style type="text/css" media="screen">
+        .opacity_1 {
+          top: -10;
+          opacity: 0.5;
+          height: 110%;
+        }
+      </style>
+
+
+      {% block content %}{% endblock %}
+
+      {% if g.user %}
+
+
+      <div class="fixed-action-btn">
+        <a class="btn-floating btn-large blue">
+          <i class="large material-icons">dehaze</i>
+        </a>
+        <ul>
+         <li><a href ="/" class="btn-floating green"><i class="material-icons">home</i></a></li>
+         <li><a href ="/slider" class="btn-floating green"><i class="material-icons">show_chart</i></a></li>
+       </ul>
+      </div>
+
+      <script>
+      document.addEventListener('DOMContentLoaded', function() {
+          var elems = document.querySelectorAll('.fixed-action-btn');
+          var instances = M.FloatingActionButton.init(elems, {
+            direction: 'left'
+          });
+        });
+      </script>
+
+      {% endif %}
+
+
+
+
+
+    </body>
+</html>
